@@ -64,7 +64,7 @@
                         <div class="form-group row mb-0 text-center">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary">
-                                    Create Invoice
+                                    Send Invoice
                                 </button>
                             </div>
                         </div>

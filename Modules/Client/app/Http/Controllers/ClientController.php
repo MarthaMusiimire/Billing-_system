@@ -76,7 +76,7 @@ class ClientController extends Controller
 
         // $client->notify(new ClientEmailVerificationNotification($client));
         Mail::to($mailData['client_email'])->send(new DemoMail($mailData, $client));
-        dd('email_sent');
+
 
         // event(new Registered($user));
 

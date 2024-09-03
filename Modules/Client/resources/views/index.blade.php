@@ -64,6 +64,7 @@
                             <a href="{{ route('invoices.create', ['client_id' => $client->id]) }}" class="btn btn-warning">Create Invoice</a>
 
 
+
             
                             <a class="btn btn-primary" href="{{ route('clients.edit',$client->id) }}">Edit</a>
 

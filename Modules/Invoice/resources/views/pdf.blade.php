@@ -35,13 +35,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Invoice #{{ $invoice->id }}</h1>
+            <h1>Invoice {{ $invoice->id }}</h1>
         </div>
         <div class="details">
-            <!-- <p><strong>Client Name:</strong> {{ $invoice->client->client_name }}</p> -->
-            <p><strong>Location:</strong> {{ $invoice->location }}</p>
-            <p><strong>Amount:</strong> ${{ number_format($invoice->amount, 2) }}</p>
-            <p><strong>Due Date:</strong> {{ $invoice->due_date}}</p>
+            @if($invoice)
+                <p><strong>Location:</strong> {{ $invoice->client->location ?? 'N/A' }}</p>
+                <p><strong>Amount:</strong> ${{ number_format($invoice->amount, 2) }}</p>
+                <p><strong>Due Date:</strong> {{ $invoice->due_date }}</p>
+            @else
+                <p>Invoice data not available.</p>
+            @endif
         </div>
         <div class="footer">
             <p>Thank you for your business!</p>

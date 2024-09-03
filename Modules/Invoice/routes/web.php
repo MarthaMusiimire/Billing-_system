@@ -20,24 +20,27 @@ Route::group([], function () {
 
 use Illuminate\Support\Facades\Mail;
 
-Route::get('/test-email', function () {
-    Mail::raw('This is a test email', function ($message) {
-        $message->to('laurielae26@gmail.com')
-                ->subject('Test Email');
-    });
-});
+// Route::get('/test-email', function () {
+//     Mail::raw('This is a test email', function ($message) {
+//         $message->to('musiimiremartha@gmail.com')
+//                 ->subject('Test Email');
+//     });
+// });
 
 
 
 
 
-// Route to display the create invoice form
+// Route to display the form to create a new invoice for a specific client
+// In routes/web.php
 Route::get('/invoices/create/{client_id}', [InvoiceController::class, 'create'])->name('invoices.create');
+
 
 // Route to handle the form submission and store the invoice
 Route::post('/invoices/store/{client_id}', [InvoiceController::class, 'store'])->name('invoices.store');
 
-
+// Route for listing all invoices
+Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 
 
 

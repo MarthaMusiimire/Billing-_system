@@ -18,6 +18,7 @@ class Invoice extends Model
     
         'client_id',
         'client_name',
+        'client_email',
         'location',
         'billing_cycle',
         'amount',
