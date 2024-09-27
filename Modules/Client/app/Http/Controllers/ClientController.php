@@ -68,8 +68,8 @@ class ClientController extends Controller
         $mailData = [
             'client_name' => $client->client_name,
             'client_email' => $client->client_email,
-            'title' => 'Verification from Matela',
-            'body' => 'Thank you for signing up with Matela. Please verify your email address by clicking the link below.',
+            'title' => 'Verification from Stre@mline',
+            'body' => 'Thank you for signing up with Stre@mline. Please verify your email address by clicking the link below.',
             // 'link' => route('clients.verify', ['token' => $client->verification_token]),
 
         ];

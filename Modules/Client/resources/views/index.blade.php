@@ -63,6 +63,8 @@
 
                             <a href="{{ route('invoices.create', ['client_id' => $client->id]) }}" class="btn btn-warning">Create Invoice</a>
 
+                            <a href="{{ route('subscriptions.create', $client->id) }}" class="btn btn-primary">Subscriptions</a>
+
 
 
             

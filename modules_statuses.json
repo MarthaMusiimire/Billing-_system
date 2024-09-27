@@ -1,5 +1,6 @@
 {
     "Client": true,
     "Billing": true,
-    "Invoice": true
+    "Invoice": true,
+    "Reports": true
 }

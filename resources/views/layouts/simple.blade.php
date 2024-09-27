@@ -112,6 +112,22 @@
 </div>
 
 
+                 <!--LINKS FOR REPORTS-->
+
+                 <div class="dropdown">
+            <a class="nav-link dropdown-toggle {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="#" id="reportsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Reports
+            </a>
+            <div class="dropdown-menu" aria-labelledby="reportsDropdown">
+                <a class="dropdown-item" >Reports</a>
+               
+            </div>
+        </div>
+
+
+
+
+
 
 
         

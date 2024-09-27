@@ -39,6 +39,8 @@
             text-align: center;
             font-size: 12px;
             color: #999999;
+            
+
         }
     </style>
 </head>
@@ -51,7 +53,7 @@
             <p>Dear {{ $invoice->client->client_name }},</p>
             <p>We hope this email finds you well. Please find your invoice attached below:</p>
             <ul>
-                <li><strong>Invoice ID:</strong> 1</li>
+                <li><strong>Invoice ID:</strong>{{$invoice->client->id}}</li>
                 <li><strong>Amount:</strong> ${{ number_format($invoice->amount, 2) }}</li>
                 <li><strong>Due Date:</strong> {{ $invoice->due_date}}</li>
             </ul>

@@ -68,7 +68,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div><br>
+                        </div>
 
 
                         
@@ -182,4 +182,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 

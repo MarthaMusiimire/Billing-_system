@@ -6,10 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Modules\Invoice\Models\Invoice;
-use Illuminate\Mail\Mailables\Content;
+//use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Attachment;
-use Illuminate\Contracts\Queue\ShouldQueue;
+//use Illuminate\Mail\Mailables\Attachment;
+//use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
 class InvoiceMail extends Mailable
