@@ -119,18 +119,13 @@
                 Reports
             </a>
             <div class="dropdown-menu" aria-labelledby="reportsDropdown">
-                <a class="dropdown-item" >Reports</a>
+                <a class="dropdown-item" href="{{ route('reports.client') }}">General Report</a>
                
             </div>
         </div>
 
 
 
-
-
-
-
-        
 
                  <!--LINKS FOR USERS-->
                  <div class="dropdown">

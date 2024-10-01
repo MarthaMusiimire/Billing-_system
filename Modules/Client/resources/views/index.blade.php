@@ -25,13 +25,8 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-
-
         <a href="{{ route('clients.create') }}" class="btn btn-primary float-right">Add Client</a><br>
     </form>
-
-
-
 
     <!-- Clients Table -->
     <table class="table table-bordered table-striped">

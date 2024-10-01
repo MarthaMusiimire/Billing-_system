@@ -32,6 +32,11 @@
                     </div>
 
                     <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Billing cycle(Years):</div>
+                        <div class="col-md-8">{{ $client->billing_cycle }}</div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-md-4 font-weight-bold">Contact Person's Name:</div>
                         <div class="col-md-8">{{ $client->contact_name }}</div>
                     </div>

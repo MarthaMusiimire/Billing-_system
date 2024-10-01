@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Reports\Http\Controllers\ReportsController;
+use Modules\Reports\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +15,9 @@ use Modules\Reports\Http\Controllers\ReportsController;
 */
 
 Route::group([], function () {
-    Route::resource('reports', ReportsController::class)->names('reports');
+    Route::resource('reports', ReportController::class)->names('reports');
 });
+
+
+Route::get('reports', [ReportController::class, 'clientReport'])->name('reports.client');
+
