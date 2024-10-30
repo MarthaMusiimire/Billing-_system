@@ -114,7 +114,7 @@
 
                  <!--LINKS FOR REPORTS-->
 
-                 <div class="dropdown">
+        <div class="dropdown">
             <a class="nav-link dropdown-toggle {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="#" id="reportsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Reports
             </a>
@@ -128,7 +128,7 @@
 
 
                  <!--LINKS FOR USERS-->
-                 <div class="dropdown">
+        <div class="dropdown">
             <a class="nav-link dropdown-toggle {{ request()->routeIs('users.*') ? 'active' : '' }}" href="#" id="usersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Users
             </a>

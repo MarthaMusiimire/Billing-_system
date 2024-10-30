@@ -37,5 +37,8 @@ Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('s
 
 
 
+
+
+
 //route is for the for the search bar
 //Route::get('/clients/index', [ClientController::class, 'index'])->name('clients.index');

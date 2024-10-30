@@ -15,6 +15,7 @@ use Modules\Client\Http\Controllers\ClientController;
    
 
 Route::middleware('auth')->group(function () {
+    Route::resource('clients', ClientController::class);
     //routes for profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -41,9 +42,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('clients', ClientController::class)->names('clients');
     });
 
+    
+
  
     
 });
+
 
 
     
@@ -66,6 +70,18 @@ Route::get('send-mail/{id}', [MailController::class, 'index']);
 //     \Mail::to('lemi.manoah@gmail.com')->send(new \App\Mail\DemoMail($mailData));
 //     return "Email sent successfully";
 // });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

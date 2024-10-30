@@ -1,4 +1,4 @@
-@extends('layouts.simple')
+@extends('dashboard')
 
 @section('content')
 <div class="container">
