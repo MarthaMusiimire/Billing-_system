@@ -78,6 +78,7 @@ class RoleController extends Controller
         ]);
 
         return redirect('roles')->with('status','Role Updated Successfully');
+        
     }
 
     public function destroy($roleId)
@@ -107,6 +108,7 @@ class RoleController extends Controller
             'categories' => $categories,
             
         ]);
+        
     }
 
 

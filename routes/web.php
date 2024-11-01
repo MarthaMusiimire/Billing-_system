@@ -6,6 +6,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use Modules\Client\Http\Controllers\ClientController;
 
@@ -42,9 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('clients', ClientController::class)->names('clients');
     });
 
-    
 
- 
     
 });
 
@@ -66,6 +65,7 @@ require __DIR__.'/auth.php';
 
 Route::get('send-mail/{id}', [MailController::class, 'index']);
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 // Route::get('send-mail', function(){
 //     \Mail::to('lemi.manoah@gmail.com')->send(new \App\Mail\DemoMail($mailData));
 //     return "Email sent successfully";

@@ -109,15 +109,14 @@ class ClientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, $id)
+   public function update(UpdateClientRequest $request, $id)
     {
-        $client = Client::validated();
+       $client = Client::findOrFail($id);
+       $client->update($request->validated());
 
-        $client->update();
+       return redirect()->route('clients.index')
+                     ->with('status', 'Client updated successfully.');
 
-        // Redirect to the index route with a success message
-        return redirect()->route('clients.index')
-                         ->with('status', 'Client updated successfully.');
     }
 
     /**
@@ -177,7 +176,11 @@ class ClientController extends Controller
             $client->save();
 
             // Redirect to the verification success page
-            return view('client::emails.Verification-success', compact('client'));
+            // return view('client::emails.Verification-success', compact('client'));
+            return view('client::emails.Verification-success', [
+                'client' => $client,
+
+            ]);
 
         }
 

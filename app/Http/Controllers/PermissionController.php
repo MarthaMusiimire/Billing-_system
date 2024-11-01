@@ -74,9 +74,10 @@ class PermissionController extends Controller
                 'unique:permissions,name'
             ]
         ]);
-        $permission::update([
+        $permission->update([
             'name' => $request->name
-        ]);
+        ]
+    );
         return redirect()->route('permissions.index')
                          ->with('status', 'Permission edited successfully');
     }
