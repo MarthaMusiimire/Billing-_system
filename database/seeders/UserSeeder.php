@@ -14,13 +14,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users=[
+        $users=[ 
+            [
             'name' => 'Musiimire Martha',
             'email' => 'musiimiremartha@gmail.com',
             'password' => bcrypt('1234567890'),
             'role' => 'admin',
+            ]
 
         ];
+        
         foreach ($users as $userData){
             $user = User::firstOrCreate(
                 ['email' => $userData['email']],
@@ -32,7 +35,7 @@ class UserSeeder extends Seeder
               
             );
 
-            $role = Role::firstOrCreate(['name' => $userData ['admin']]);
+            $role = Role::firstOrCreate(['name' => $userData ['role']]);
             $user->assignRole($role);
         }
         

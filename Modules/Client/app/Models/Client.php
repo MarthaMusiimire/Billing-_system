@@ -2,17 +2,25 @@
 
 namespace Modules\Client\Models;
 
+
+
 use Modules\Invoice\Models\Invoice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Client\Database\Factories\ClientFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
 
 
 class Client extends Model
 {
     use HasFactory, SoftDeletes, Notifiable;
+    protected static function newFactory()
+    {
+        return \Modules\Client\Database\Factories\ClientFactory::new();
+    }
+    
 
     /**
      * The attributes that are mass assignable.
@@ -35,10 +43,10 @@ class Client extends Model
     //for soft deletes
     protected $dates = ['deleted_at'];
 
-    protected static function newFactory()
-    {
-        //return ClientFactory::new();
-    }
+    // protected static function newFactory()
+    // {
+    //     return ClientFactory::new();
+    // }
 
     public function invoices()
     {
@@ -49,4 +57,5 @@ class Client extends Model
     {
         return $this->hasMany(Subscription::class);
     }
+    
 }

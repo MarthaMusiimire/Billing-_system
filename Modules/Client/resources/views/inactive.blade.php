@@ -25,7 +25,7 @@
             </div>
         @endif
 
-        @if($clients->isEmpty())
+        @if($deleted_clients->isEmpty())
             <div class="alert alert-info">
                 No inactive Client found.
             </div>
@@ -42,7 +42,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($clients as $index => $client)
+                    @foreach ($deleted_clients as $index => $client)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $client->client_name }}</td>

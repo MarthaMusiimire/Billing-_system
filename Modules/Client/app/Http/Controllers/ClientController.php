@@ -70,7 +70,7 @@ class ClientController extends Controller
             'client_email' => $client->client_email,
             'title' => 'Verification from Stre@mline',
             'body' => 'Thank you for signing up with Stre@mline. Please verify your email address by clicking the link below.',
-            // 'link' => route('clients.verify', ['token' => $client->verification_token]),
+            
 
         ];
 
@@ -144,12 +144,10 @@ class ClientController extends Controller
         }
 
         // Execute the query and get the results
-        $clients = $query->get();
+        $deleted_clients = $query->get();
 
         // Return the view with the clients data
-        return view('client::inactive', compact('clients'));
-
-    
+        return view('client::inactive', compact('deleted_clients'));
 
     }
 
@@ -162,7 +160,7 @@ class ClientController extends Controller
                          ->with('status', 'Client activated successfully.');
     }
 
-
+    
 
 
     public function verifyEmail($id, $hash)
