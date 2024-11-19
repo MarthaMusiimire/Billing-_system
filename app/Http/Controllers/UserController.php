@@ -11,14 +11,7 @@ use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:view user', ['only' => ['index']]);
-    //     $this->middleware('permission:create user', ['only' => ['create','store']]);
-    //     $this->middleware('permission:update user', ['only' => ['update','edit']]);
-    //     $this->middleware('permission:delete user', ['only' => ['destroy']]);
     
-    // }
 
     public function index()
     {
@@ -57,7 +50,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UpdateUserRequest $request, $id, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $data = [
             'name' => $request->name,
@@ -73,7 +66,7 @@ class UserController extends Controller
         $user->update($data);
         $user->syncRoles($request->roles);
 
-        return redirect('/users/index')->with('status','User Updated Successfully with roles');
+        return redirect('/users')->with('status','User Updated Successfully with roles');
     }
 
     public function destroy($userId)
@@ -81,6 +74,20 @@ class UserController extends Controller
         $user = User::findOrFail($userId);
         $user->delete();
 
-        return redirect('/users')->with('status','User Delete Successfully');
+        return redirect('/users')->with('status','User Deleted Successfully');
     }
+
+    public function inactive()
+    {
+        $inactiveUsers = User::onlyTrashed()->with('roles')->get();//for returning users with their roles.
+        return view('role-permission.user.inactive', compact('inactiveUsers'));
+    }
+
+    public function restore($id)
+{
+    $user = User::onlyTrashed()->findOrFail($id);
+    $user->restore();
+
+    return redirect()->route('users.index')->with('status', 'User restored successfully.');
+}
 }

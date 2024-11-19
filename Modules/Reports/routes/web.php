@@ -14,9 +14,9 @@ use Modules\Reports\Http\Controllers\ReportController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('reports', ReportController::class)->names('reports');
-});
+// Route::group([], function () {
+//     Route::resource('reports', ReportController::class)->names('reports');
+// });
 
 
 Route::get('reports', [ReportController::class, 'clientReport'])->name('reports.client');

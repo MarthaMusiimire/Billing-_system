@@ -25,18 +25,31 @@ Route::middleware('auth')->group(function () {
 
     //routes for permissions
     Route::resource('permissions', App\Http\Controllers\PermissionController::class);
-    Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'roles.destroy']);
+    Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'permissions.destroy']);
 
+    
+    
+    
     //routes for roles
     Route::resource('roles', App\Http\Controllers\RoleController::class);
-    Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy'])->name('permissions.destroy');
+    Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy'])->name('role.destroy');
     Route::get('roles/{roleId}/give_permissions', [App\Http\Controllers\RoleController::class, 'showPermissionToRole'])->name('showPermissionToRole');
     Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole'])->name('givePermissionToRole');
 
+    
+    
+    
+    
+    
     //routes for users
     Route::resource('users', App\Http\Controllers\UserController::class);
+    //Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
+    Route::get('inactive', [UserController::class, 'inactive'])->name('users.inactive');
+    Route::put('user/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
 
+    
+    
     
     //route for clients
     Route::group([], function () {
@@ -49,7 +62,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-    
 
 
 
@@ -66,10 +78,6 @@ require __DIR__.'/auth.php';
 Route::get('send-mail/{id}', [MailController::class, 'index']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-// Route::get('send-mail', function(){
-//     \Mail::to('lemi.manoah@gmail.com')->send(new \App\Mail\DemoMail($mailData));
-//     return "Email sent successfully";
-// });
 
 
 

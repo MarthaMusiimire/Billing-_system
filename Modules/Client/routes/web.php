@@ -23,8 +23,10 @@ Route::group([], function () {
 
 Route::resource('clients', ClientController::class);
 
-Route::get('inactive', [ClientController::class, 'inactive'])->name('clients.inactive');
+
+Route::get('/clients/inactive', [ClientController::class, 'inactive'])->name('clients.inactive');
 Route::put('client/{id}/restore', [ClientController::class, 'restore'])->name('clients.restore');
+
 Route::get('/client/verify/{id}/{hash}', [ClientController::class, 'verifyEmail'])->name('client.verify');
 
 

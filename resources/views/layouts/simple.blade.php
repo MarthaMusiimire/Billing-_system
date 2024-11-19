@@ -135,6 +135,7 @@
             <div class="dropdown-menu" aria-labelledby="usersDropdown">
                 <a class="dropdown-item" href="{{ route('users.create') }}">Create user</a>
                 <a class="dropdown-item" href="{{ route('users.index') }}">View users</a>
+                <a class="dropdown-item" href="{{ route('users.inactive') }}">Inactive users</a>
             </div>
         </div>
 

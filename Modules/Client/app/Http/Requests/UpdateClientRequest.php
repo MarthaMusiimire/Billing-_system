@@ -23,14 +23,14 @@ class UpdateClientRequest extends FormRequest
         return [
 
             
-            'client_name' => 'required|string|max:255',
-            'facility_level'=> 'required|string|',
-            'location'=> 'required|string|max:255',
-            'contact_name'=> 'required|string|max:255',
-            'contact_phone'=> 'required|string|max:255',
-            'support_engineer_name'=> 'required|string|max:255',
-            'support_engineer_phone'=> 'required|string|max:255',
-            'support_engineer_email'=> 'required|string|max:255|email:rfc,dns',
+            'client_name' => 'sometimes|required|string|max:255',
+            'facility_level'=> 'sometimes|required|string|',
+            'location'=> 'sometimes|required|string|max:255',
+            'contact_name'=> 'sometimes|required|string|max:255',
+            'contact_phone'=> 'sometimes|required|string|max:255',
+            'support_engineer_name'=> 'sometimes|required|string|max:255',
+            'support_engineer_phone'=> 'sometimes|required|string|max:255',
+            'support_engineer_email'=> 'sometimes|required|string|max:255|email:rfc,dns',
             
         ];
     }

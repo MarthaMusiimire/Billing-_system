@@ -14,22 +14,6 @@ use Modules\Invoice\Http\Controllers\InvoiceController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('invoices', InvoiceController::class);
-});
-
-use Illuminate\Support\Facades\Mail;
-
-// Route::get('/test-email', function () {
-//     Mail::raw('This is a test email', function ($message) {
-//         $message->to('musiimiremartha@gmail.com')
-//                 ->subject('Test Email');
-//     });
-// });
-
-
-
-
 
 // Route to display the form to create a new invoice for a specific client
 // In routes/web.php

@@ -12,6 +12,7 @@ return [
          * The model you want to use as a Permission model needs to implement the
          * `Spatie\Permission\Contracts\Permission` contract.
          */
+        'guard_name' => 'web',
 
         'permission' => Spatie\Permission\Models\Permission::class,
     

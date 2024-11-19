@@ -3,7 +3,6 @@
 use Tests\TestCase;
 use App\Models\User;
 use Modules\Client\Models\Client;
-use Database\Factories\ClientFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 // Ensure tests use Laravel's TestCase with database refresh.

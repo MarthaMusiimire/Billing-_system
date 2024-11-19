@@ -16,12 +16,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Client extends Model
 {
     use HasFactory, SoftDeletes, Notifiable;
+
+    
     protected static function newFactory()
     {
         return \Modules\Client\Database\Factories\ClientFactory::new();
     }
     
-
     /**
      * The attributes that are mass assignable.
      */
@@ -43,10 +44,6 @@ class Client extends Model
     //for soft deletes
     protected $dates = ['deleted_at'];
 
-    // protected static function newFactory()
-    // {
-    //     return ClientFactory::new();
-    // }
 
     public function invoices()
     {
@@ -59,3 +56,4 @@ class Client extends Model
     }
     
 }
+

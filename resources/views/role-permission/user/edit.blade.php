@@ -25,7 +25,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ url('users/update'.$user->id) }}" method="POST">
+                        <form method="POST" action="{{ route('users.update', $user->id)}}" >
                             @csrf
                             @method('PUT')
 
@@ -36,11 +36,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="">Email</label>
-                                <input type="text" name="email" readonly value="{{ $user->email }}" class="form-control" />
+                                <input type="text" name="email" value="{{ $user->email }}" class="form-control" />
                             </div>
                             <div class="mb-3">
                                 <label for="">Password</label>
-                                <input type="password" name="password" class="form-control" />
+                                <input type="password" name="password" class="form-control" value="{{ $user->password }}" />
                                 @error('password') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="mb-3">
