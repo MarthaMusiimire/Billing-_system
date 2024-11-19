@@ -23,7 +23,7 @@
                             @method('PUT')
                             <div class = "mb-3">
                                 <label for="">Role Name</label>
-                                <input type="text" name="name" class="form-control" />
+                                <input type="text" name="name" class="form-control" value="{{old ('name', $role->name)}}" />
                             </div>
                             <div class = "mb-3">
                                 <button type="submit", class="btn btn-primary">Edit</button>

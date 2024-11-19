@@ -41,18 +41,14 @@
                                         <a href="{{ route('showPermissionToRole', $role->id) }}" class="btn btn-warning">
                                             Add / Edit Permission
                                         </a>
-
-                                        <!-- @can('update role') -->
+                                        
                                         <a href="{{ url('roles/'.$role->id.'/edit') }}" class="btn btn-success">
                                             Edit
                                         </a>
-                                        <!-- @endcan -->
-
-                                        <!-- @can('delete role') -->
-                                        <a href="{{ route('permissions.destroy', $role->id) }}" class="btn btn-danger mx-2">
+                                       
+                                        <a href="{{ route('role.destroy', $role->id) }}" class="btn btn-danger mx-2">
                                             Delete
                                         </a>
-                                        <!-- @endcan -->
                                     </td>
                                 </tr>
                                 @endforeach
