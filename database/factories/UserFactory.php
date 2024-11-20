@@ -46,11 +46,17 @@ class UserFactory extends Factory
     }
 
     public function admin()
-{
-    return $this->afterCreating(function (User $user) {
-        if (Role::where('name', 'admin')->exists()) {
-            $user->assignRole('admin');
+        {
+            return $this->afterCreating(function (User $user) {
+                if (Role::where('name', 'admin')->exists()) {
+                    $user->assignRole('admin');
+                }
+            });
         }
-    });
-}
+
+
+
+
+
+
 }

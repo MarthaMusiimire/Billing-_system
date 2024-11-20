@@ -36,6 +36,7 @@
             "Database\\Factories\\": "database/factories/",
             "Modules\\Client\\Database\\Factories\\": "Modules/Client/Database/Factories/",
             "Tests\\": "tests/"
+
         }
     },
     "scripts": {

@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-        </div><br>
+        </div>
 
         @if ($message = Session::get('status'))
         <div class="alert alert-success">
@@ -33,7 +33,6 @@
         <thead class="thead-dark">
             <tr>
                 <th>Client Name</th>
-                <th>Facility Level</th>
                 <th>Location</th>
                 <th>Contact Person</th>
                 <th>Action</th>
@@ -43,33 +42,20 @@
             @foreach($clients as $client)
                 <tr>
                     <td>{{ $client->client_name }}</td>
-                    <td>{{ $client->facility_level=='1'? 'Health Centre-I':
-                        ($client->facility_level=='2'? 'Health Centre-II':
-                        ($client->facility_level=='3'? 'Health Centre-III':
-                        ($client->facility_level=='4'? 'Health Centre-IV':
-                        ($client->facility_level=='5'? 'Clinic':
-                        ($client->facility_level=='6'? 'Hospital':'Referral Hospital')))))}}</td>
                     <td>{{ $client->location }}</td>
                     <td>{{ $client->contact_name }}  -  {{$client->contact_phone}} </td>
                     <td>
                         <form action="{{ route('clients.destroy',$client->id) }}" method="POST">
         
-                            <a class="btn btn-info" href="{{ route('clients.show',$client->id) }}">Details</a>
+                        <a class="btn btn-info btn-sm" href="{{ route('clients.show',$client->id) }}">Details</a>
+                        <a href="{{ route('invoices.create', ['client_id' => $client->id]) }}" class="btn btn-warning btn-sm">Invoice</a>
+                        <a href="{{ route('subscriptions.create', $client->id) }}" class="btn btn-primary btn-sm">Subscriptions</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('clients.edit',$client->id) }}">Edit</a>
 
-                            <a href="{{ route('invoices.create', ['client_id' => $client->id]) }}" class="btn btn-warning">Create Invoice</a>
-
-                            <a href="{{ route('subscriptions.create', $client->id) }}" class="btn btn-primary">Subscriptions</a>
-
-
-
-            
-                            <a class="btn btn-primary" href="{{ route('clients.edit',$client->id) }}">Edit</a>
-
-        
                             @csrf
                             @method('DELETE')
             
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                     
