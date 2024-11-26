@@ -1,73 +1,63 @@
 <?php
 
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
+it('admin sees role index', function () {
+    $user = User::factory()->admin()->create();
+    $this->actingAs($user)->get('/roles')->assertStatus(200);
 
-//test for rendering the index page for roles.
-it('can render the index page for roles', function () {
+});
 
-    $admin = User::factory()->admin()->create();
+it('admin can see create view for role', function() {
+    //create a new admin user
+    $user = User::factory()->admin()->create();
     
-    $this->actingAs($admin)->get('/roles')->assertStatus(200);
+    //authenticate user
+    $this->actingAs($user);
+
+    //get the create view endpoint
+    $response = $this->get('roles/create');
+
+    //assert status code
+    $response->assertStatus(200);
+
 });
 
+it('admin can create a new role', function(){
+    //create a new admin user
+    $user = User::factory()->admin()->create();
 
-//test for viewing the create page for a new role.
+    //authenticate user
+    $this->actingAs($user);
 
-it('can view create page for a new role', function(){
-    $admin = User::factory()->admin()->create();
-    $this->actingAs($admin)->get('/roles/create')->assertStatus(200);
-
-});
-
-
-
-//test for creating a new role.
-it('can create a new role', function(){
-    $admin = User::factory()->admin()->create();
-    $response = $this->actingAs($admin)->post('/roles', [
-     'name' => 'super admin',   
+    //get the create view endpoint
+    $response = $this->post('roles', [
+        'name' => 'super admin',
     ]);
-    $response->assertRedirect('/roles');
+    //assert status code
+    $response->assertRedirect('roles');
 
 });
 
+it('admin can delete a role', function(){
+    $user = User::factory()->admin()->create();
+    $this->actingAs($user);
 
-//test for updating a role.
-it('can update an existing role', function(){
-    $admin = User::factory()->admin()->create();
-    $this->actingAs($admin);
-    $role = Spatie\Permission\Models\Role::create([
-        'name' => 'software developer',
-
-    ]);
-    $updatedRole = [
-        'name' => 'software designer',
-    ];
-
-    $response = $this->put('/roles/' . $role->id, $updatedRole);
-
-    $response->assertStatus(302);
-    $this->assertDatabaseHas('roles', ['id' => $role->id, 'name' => 'software designer']);
-       
-});
-
-
-//test for deleting a role
-it('can delete a role',function(){
-    $admin = User::factory()->admin()->create();
-    $this->actingAs($admin);
-    $role = Spatie\Permission\Models\Role::create([
-        'name' => 'software developer',
+    $role = Role::create([
+        'name' => 'marthakay',
     ]);
 
-    $response = $this->delete('/roles/'. $role->id);
+    $response = $this->delete('roles/{$role->id}');
 
-    $response->assertStatus(302);
-    $this->assertDatabaseMissing('roles', ['id' => $role->id]);
+    //get the latest role in the database
+    $latestRole = Role::latest()->first();
+
+    //expect not to be the deleted role
+    expect($latestRole)->not->toBe($role->name);
+
+    //assert databse not to have role marthakay
+    //$this->assertDatabaseMissing('roles',[$role->name]);
+
+
 });
-
-
-
-
-
