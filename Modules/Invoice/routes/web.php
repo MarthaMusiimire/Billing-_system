@@ -29,4 +29,3 @@ Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.ind
 
 
 
-
