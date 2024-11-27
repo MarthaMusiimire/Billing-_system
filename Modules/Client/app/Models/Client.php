@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 
-
 class Client extends Model
 {
     use HasFactory, SoftDeletes, Notifiable;
@@ -40,6 +39,8 @@ class Client extends Model
         'support_engineer_email',
 
     ];
+
+    
 
     //for soft deletes
     protected $dates = ['deleted_at'];

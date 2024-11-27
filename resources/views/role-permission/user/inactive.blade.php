@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container">
-    <form action="{{ route('users.inactive') }}" method="POST">
+    <form  method="POST" action="{{ route('users.inactive') }}" >
+        @CSRF
+        @method('PUT')
+
         <h3>Inactive Users</h3>
         <table class="table table-bordered">
             <thead>

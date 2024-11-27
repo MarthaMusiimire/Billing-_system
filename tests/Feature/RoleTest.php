@@ -3,13 +3,13 @@
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-it('admin sees role index', function () {
+it('can render the roles index page', function () {
     $user = User::factory()->admin()->create();
     $this->actingAs($user)->get('/roles')->assertStatus(200);
 
 });
 
-it('admin can see create view for role', function() {
+it('can see create view for roles', function() {
     //create a new admin user
     $user = User::factory()->admin()->create();
     
@@ -24,7 +24,7 @@ it('admin can see create view for role', function() {
 
 });
 
-it('admin can create a new role', function(){
+it('can create a new role', function(){
     //create a new admin user
     $user = User::factory()->admin()->create();
 
@@ -33,22 +33,22 @@ it('admin can create a new role', function(){
 
     //get the create view endpoint
     $response = $this->post('roles', [
-        'name' => 'super admin',
+        'name' => 'Clinician',
     ]);
     //assert status code
     $response->assertRedirect('roles');
 
 });
 
-it('admin can delete a role', function(){
+it('can delete a role', function(){
     $user = User::factory()->admin()->create();
     $this->actingAs($user);
 
     $role = Role::create([
-        'name' => 'marthakay',
+        'name' => 'programmer',
     ]);
 
-    $response = $this->delete('roles/{$role->id}');
+    $response = $this->delete("roles/$role->id");
 
     //get the latest role in the database
     $latestRole = Role::latest()->first();
@@ -57,7 +57,8 @@ it('admin can delete a role', function(){
     expect($latestRole)->not->toBe($role->name);
 
     //assert databse not to have role marthakay
-    //$this->assertDatabaseMissing('roles',[$role->name]);
+    $this->assertDatabaseMissing('roles', ['id' => $role->id]);
+    
 
 
 });

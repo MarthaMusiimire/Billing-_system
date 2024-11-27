@@ -4,7 +4,8 @@ namespace Modules\Client\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Client\Database\Factories\SubscriptionFactory;
+
+use Modules\Client\Models\Client;
 
 class Subscription extends Model
 {
@@ -24,7 +25,8 @@ class Subscription extends Model
 
     protected static function newFactory()
     {
-        //return SubscriptionFactory::new();
+        
+        return \Modules\Client\Database\Factories\SubscriptionFactory::new();
     }
     public function client()
     {

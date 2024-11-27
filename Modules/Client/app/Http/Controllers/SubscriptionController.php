@@ -32,14 +32,13 @@ class SubscriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $clientId)
     {
-         // Log the request data to ensure that form submission is working correctly.
+        // Log the request data for debugging
         Log::info('Subscription Store Method Called', $request->all());
-
-
+        
+        // Validate the incoming request
         $validated = $request->validate([
-            'client_id' => 'required|exists:clients,id',
             'amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => [
@@ -49,22 +48,19 @@ class SubscriptionController extends Controller
                 function ($attribute, $value, $fail) use ($request) {
                     $startDate = \Carbon\Carbon::parse($request->input('start_date'));
                     $endDate = \Carbon\Carbon::parse($value);
-
-                    // Log the dates for debugging
-                    Log::info('Start Date:', ['start_date' => $startDate->format('Y-m-d')]);
-                    Log::info('End Date:', ['end_date' => $endDate->format('Y-m-d')]);
-
+    
                     // Check if the end date is at least one year after the start date
-                    if ($endDate->lt($startDate->copy()->addYear())) { // less than one year
+                    if ($endDate->lt($startDate->copy()->addYear())) {
                         $fail('The end date must be at least one year after the start date.');
                     }
                 },
             ],
-                        'payment_status' => 'required|boolean',
+            'payment_status' => 'required|boolean',
         ]);
     
+        // Create the subscription using the client ID from the route
         Subscription::create([
-            'client_id' => $request->input('client_id'),
+            'client_id' => $clientId,
             'amount' => $request->input('amount'),
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
@@ -72,8 +68,6 @@ class SubscriptionController extends Controller
         ]);
     
         return redirect()->route('clients.index')->with('success', 'Subscription created successfully.');
-    
-
     }
 
     /**

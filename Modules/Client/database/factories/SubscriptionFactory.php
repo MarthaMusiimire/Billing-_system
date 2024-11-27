@@ -3,6 +3,8 @@
 namespace Modules\Client\Database\Factories;
 
 use Modules\Client\Models\Client;
+
+use Modules\Client\Models\Subscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SubscriptionFactory extends Factory
@@ -10,7 +12,7 @@ class SubscriptionFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      */
-    protected $model = \Modules\Client\Models\Subscription::class;
+    protected $model = Subscription::class;
 
     /**
      * Define the model's default state.

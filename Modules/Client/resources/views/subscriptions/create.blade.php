@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Create Subscription for {{ $client->client_name }}</h2>
    
-    <form action="{{ route('subscriptions.store') }}" method="POST">
+    <form action="{{ route('subscriptions.store', ['clientId' => $client->id]) }}" method="POST">
         @csrf
 
         <input type="hidden" name="client_id" value="{{ $client->id }}">

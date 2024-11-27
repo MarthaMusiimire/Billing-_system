@@ -24,8 +24,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|string|email:rfc,dns|max:255|:users,email',
-            'password' => 'sometimes|required|string|min:8',
-            'roles' => 'sometimes|required|array',
+            'password' => 'nullable|string|min:8',
+            'roles' => 'nullable|string|array',
         ];
     }
 }

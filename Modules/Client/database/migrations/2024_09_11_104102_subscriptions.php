@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id(); // Primary key
             $table->unsignedBigInteger('client_id');
-            $table->decimal('amount', 8, 2); // Amount field, 8 digits with 2 decimals
+            $table->decimal('amount', 20, 2); // Amount field, 8 digits with 2 decimals
             $table->date('start_date'); // Start date of the subscription
             $table->date('end_date'); // End date of the subscription
             $table->boolean('payment_status')->default(false); // Payment status, default is unpaid (false)
             $table->timestamps(); // Created_at and updated_at fields
+
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
         
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('subscriptions');
     }
 };

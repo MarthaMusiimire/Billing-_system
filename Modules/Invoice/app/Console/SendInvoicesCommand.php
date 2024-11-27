@@ -32,6 +32,7 @@ class SendInvoicesCommand extends Command
 
         // Loop through each unpaid subscription
         foreach ($unpaidSubscriptions as $subscription) {
+            $client = $subscription->client;
             // Find the corresponding invoice
             $invoice = Invoice::where('client_id', $subscription->client_id)->first();
         
@@ -50,7 +51,8 @@ class SendInvoicesCommand extends Command
         
                 // Log the sending
                 $this->info('Invoice email sent to: ' . $subscription->client->client_email);
-            } else {
+            } 
+            else {
                 $this->warn('No invoice found for client ID: ' . $subscription->client_id);
             }
         }
