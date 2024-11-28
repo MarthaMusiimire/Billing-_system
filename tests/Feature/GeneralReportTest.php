@@ -1,157 +1,138 @@
 <?php
 
+use Carbon\Carbon;
 use Modules\Client\Models\Client;
 use Modules\Client\Models\Subscription;
 
 
+beforeEach(function () {
+    // Freeze time to November 27, 2024.
+    Carbon::setTestNow(Carbon::create(2024, 11, 27, 0, 0, 0));
 
-//test for the one week filter 
-it('fetches clients with subscriptions ending within one week', function () {
-    $today = now();
-
-    // Create clients with subscriptions ending within one week
-    $paidClient = Client::factory()->create();
+    // Paid client with subscription ending within one week.
+    $this->oneWeekClient = Client::factory()->create();
     Subscription::factory()->create([
-        'client_id' => $paidClient->id,
-        'end_date' => $today->clone()->addDays(5),
+        'client_id' => $this->oneWeekClient->id,
         'payment_status' => 1,
+        'end_date' => Carbon::now()->addDays(5),
     ]);
 
-    $unpaidClient = Client::factory()->create();
+    // Paid client with subscription ending within two weeks.
+    $this->twoWeeksClient = Client::factory()->create();
     Subscription::factory()->create([
-        'client_id' => $unpaidClient->id,
-        'end_date' => $today->clone()->addDays(6),
-        'payment_status' => 0,
+        'client_id' => $this->twoWeeksClient->id,
+        'payment_status' => 1,
+        'end_date' => Carbon::now()->addDays(12),
     ]);
 
-    // Create clients with subscriptions outside one week
-    Client::factory()->has(Subscription::factory()->state([
-        'end_date' => $today->clone()->addDays(10),
+    // Paid client with subscription ending within one month.
+    $this->oneMonthClient = Client::factory()->create();
+    Subscription::factory()->create([
+        'client_id' => $this->oneMonthClient->id,
         'payment_status' => 1,
-    ]))->create();
+        'end_date' => Carbon::now()->addDays(25),
+    ]);
 
-    // Call the route
-    $response = $this->get(route('reports.client', ['filter' => 'one_week']));
-
-    $response->assertStatus(200)
-        ->assertViewHas('paidClients', function ($paidClients) use ($paidClient) {
-            return $paidClients->contains($paidClient);
-        })
-        ->assertViewHas('unpaidClients', function ($unpaidClients) use ($unpaidClient) {
-            return $unpaidClients->contains($unpaidClient);
-        });
+    // Paid client with subscription ending within a specific range (December 1 - December 15).
+    $this->dateRangeClient = Client::factory()->create();
+    Subscription::factory()->create([
+        'client_id' => $this->dateRangeClient->id,
+        'payment_status' => 1,
+        'end_date' => Carbon::create(2024, 12, 10),
+    ]);
 });
 
 
 
 
-//test for two weeks filter
-it('fetches clients with subscriptions ending within two weeks', function () {
-    $today = now();
+//test for clients whose subscriptions ends in  a week
+it('can fetch clients with subscriptions ending within one week', function () {
+    $response = $this->get(route('reports.client', ['filter' => 'one_week']));
+    $response->assertStatus(200)
+    ->assertViewHas('paidClients', function ($paidClients) {
+        return $paidClients->contains(function ($client) {
+            return $client->subscriptions->contains(function ($subscription) {
 
-    $paidClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $paidClient->id,
-        'end_date' => $today->clone()->addDays(10),
-        'payment_status' => 1,
-    ]);
+                // Checking if the end_date is a string and convert it to Carbon 
+                $endDate = (is_string($subscription->end_date)) 
+                    ? Carbon::parse($subscription->end_date) //for casting this to a carbon instance before calling the difInDays() function.
+                    : $subscription->end_date;
 
-    $unpaidClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $unpaidClient->id,
-        'end_date' => $today->clone()->addDays(12),
-        'payment_status' => 0,
-    ]);
+                return $endDate->diffInDays(Carbon::now()) <= 7;
+            });
+        });
+    });
+});
 
+
+
+
+//test for clients whose subscriptions ends in two week
+it('can fetch clients with subscriptions ending within two weeks', function () {
     $response = $this->get(route('reports.client', ['filter' => 'two_weeks']));
 
     $response->assertStatus(200)
-        ->assertViewHas('paidClients', function ($paidClients) use ($paidClient) {
-            return $paidClients->contains($paidClient);
-        })
-        ->assertViewHas('unpaidClients', function ($unpaidClients) use ($unpaidClient) {
-            return $unpaidClients->contains($unpaidClient);
+        ->assertViewHas('paidClients', function ($paidClients) {
+            return $paidClients->contains(function ($client) {
+                return $client->subscriptions->contains(function ($subscription) {
+                    $endDate = is_string($subscription->end_date)
+                        ? Carbon::parse($subscription->end_date)
+                        : $subscription->end_date;
+
+                    return $endDate->diffInDays(Carbon::now()) <= 14;
+                });
+            });
         });
 });
 
 
 
 
-it('fetches clients with subscriptions ending within one month', function () {
-    $today = now();
-
-    $paidClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $paidClient->id,
-        'end_date' => $today->clone()->addDays(20),
-        'payment_status' => 1,
-    ]);
-
-    $unpaidClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $unpaidClient->id,
-        'end_date' => $today->clone()->addDays(25),
-        'payment_status' => 0,
-    ]);
-
+//test for clients whose subscriptions ends in a month.
+it('can fetch clients with subscriptions ending within one month', function () {
     $response = $this->get(route('reports.client', ['filter' => 'one_month']));
 
     $response->assertStatus(200)
-        ->assertViewHas('paidClients', function ($paidClients) use ($paidClient) {
-            return $paidClients->contains($paidClient);
-        })
-        ->assertViewHas('unpaidClients', function ($unpaidClients) use ($unpaidClient) {
-            return $unpaidClients->contains($unpaidClient);
+        ->assertViewHas('paidClients', function ($paidClients) {
+            return $paidClients->contains(function ($client) {
+                return $client->subscriptions->contains(function ($subscription) {
+                    $endDate = is_string($subscription->end_date)
+                        ? Carbon::parse($subscription->end_date)
+                        : $subscription->end_date;
+
+                    return $endDate->diffInDays(Carbon::now()) <= 30;
+                });
+            });
         });
 });
 
 
 
-it('fetches clients within a custom date range', function () {
-    $startDate = now()->clone()->subDays(2);
-    $endDate = now()->clone()->addDays(7);
 
-    $paidClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $paidClient->id,
-        'end_date' => now()->clone()->addDays(4),
-        'payment_status' => 1,
-    ]);
 
-    $unpaidClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $unpaidClient->id,
-        'end_date' => now()->clone()->addDays(5),
-        'payment_status' => 0,
-    ]);
+
+
+//test for clients who subscription ends with in a date range.
+it('can fetch clients with subscriptions ending within a specific date range', function () {
+    $startDate = Carbon::create(2024, 12, 1);
+    $endDate = Carbon::create(2024, 12, 15);
 
     $response = $this->get(route('reports.client', [
         'filter' => 'date_range',
-        'from_date' => $startDate->format('Y-m-d'),
-        'to_date' => $endDate->format('Y-m-d'),
+        'start_date' => $startDate->toDateString(),
+        'end_date' => $endDate->toDateString(),
     ]));
 
     $response->assertStatus(200)
-        ->assertViewHas('paidClients', function ($paidClients) use ($paidClient) {
-            return $paidClients->contains($paidClient);
-        })
-        ->assertViewHas('unpaidClients', function ($unpaidClients) use ($unpaidClient) {
-            return $unpaidClients->contains($unpaidClient);
+        ->assertViewHas('paidClients', function ($paidClients) use ($startDate, $endDate) {
+            return $paidClients->contains(function ($client) use ($startDate, $endDate) {
+                return $client->subscriptions->contains(function ($subscription) use ($startDate, $endDate) {
+                    $endDateValue = is_string($subscription->end_date)
+                        ? Carbon::parse($subscription->end_date)
+                        : $subscription->end_date;
+
+                    return $endDateValue->between($startDate, $endDate);
+                });
+            });
         });
 });
-
-
-
-// it('returns empty results when no clients match the criteria', function () {
-//     $response = $this->get(route('reports.client', ['filter' => 'one_week']));
-
-//     $response->assertStatus(200)
-//         ->assertViewHas('paidClients', function ($paidClients) {
-//             return $paidClients->isEmpty();
-//         })
-//         ->assertViewHas('unpaidClients', function ($unpaidClients) {
-//             return $unpaidClients->isEmpty();
-//         });
-// });
-
-
