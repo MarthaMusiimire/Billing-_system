@@ -31,21 +31,6 @@ Route::get('/client/verify/{id}/{hash}', [ClientController::class, 'verifyEmail'
 
 
 //routes for subscriptions
-
-
 Route::get('/clients/{clientId}/subscriptions/create', [SubscriptionController::class, 'create'])->name('subscriptions.create');
 Route::post('/clients/{clientId}/subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
-//Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
-//Route::get('/subscriptions/create/{clientId}', [SubscriptionController::class, 'create'])->name('subscriptions.create');
 
-//Route::post('/subscriptions/store/{clientId}', [SubscriptionController::class, 'store'])->name('subscriptions.store');
-
-
-
-
-
-
-
-
-//route is for the for the search bar
-//Route::get('/clients/index', [ClientController::class, 'index'])->name('clients.index');

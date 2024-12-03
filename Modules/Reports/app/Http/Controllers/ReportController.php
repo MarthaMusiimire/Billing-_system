@@ -18,7 +18,7 @@ class ReportController extends Controller
             $toDate = $request->input('to_date');
             $today = now();
 
-            // Define date range based on selected filter
+          
             switch ($filter) {
                 case 'one_week':
                     $startDate = $today;

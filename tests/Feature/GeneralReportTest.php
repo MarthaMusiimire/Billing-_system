@@ -4,135 +4,86 @@ use Carbon\Carbon;
 use Modules\Client\Models\Client;
 use Modules\Client\Models\Subscription;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-beforeEach(function () {
-    // Freeze time to November 27, 2024.
-    Carbon::setTestNow(Carbon::create(2024, 11, 27, 0, 0, 0));
+uses(RefreshDatabase::class);
 
-    // Paid client with subscription ending within one week.
-    $this->oneWeekClient = Client::factory()->create();
+// beforeEach(function () {
+//     Carbon::setTestNow('2024-12-01'); // Fix the current time for all tests
+// });
+
+
+
+
+//function for seeding clients with their subscriptions.
+function seedClientsWithSubscriptions($endDate, $paymentStatus)
+{
+    $client = Client::factory()->create();
     Subscription::factory()->create([
-        'client_id' => $this->oneWeekClient->id,
-        'payment_status' => 1,
-        'end_date' => Carbon::now()->addDays(5),
+        'client_id' => $client->id,
+        'end_date' => $endDate,
+        'payment_status' => $paymentStatus,
     ]);
-
-    // Paid client with subscription ending within two weeks.
-    $this->twoWeeksClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $this->twoWeeksClient->id,
-        'payment_status' => 1,
-        'end_date' => Carbon::now()->addDays(12),
-    ]);
-
-    // Paid client with subscription ending within one month.
-    $this->oneMonthClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $this->oneMonthClient->id,
-        'payment_status' => 1,
-        'end_date' => Carbon::now()->addDays(25),
-    ]);
-
-    // Paid client with subscription ending within a specific range (December 1 - December 15).
-    $this->dateRangeClient = Client::factory()->create();
-    Subscription::factory()->create([
-        'client_id' => $this->dateRangeClient->id,
-        'payment_status' => 1,
-        'end_date' => Carbon::create(2024, 12, 10),
-    ]);
-});
+}
 
 
 
+//Test for clients whose subscription ends in one week.
+it('returns clients whose subscription ends in one-week ', function () {
+    // Seed data within one week range
+    seedClientsWithSubscriptions(Carbon::now()->addDays(3), 1);
 
-//test for clients whose subscriptions ends in  a week
-it('can fetch clients with subscriptions ending within one week', function () {
-    $response = $this->get(route('reports.client', ['filter' => 'one_week']));
-    $response->assertStatus(200)
-    ->assertViewHas('paidClients', function ($paidClients) {
-        return $paidClients->contains(function ($client) {
-            return $client->subscriptions->contains(function ($subscription) {
-
-                // Checking if the end_date is a string and convert it to Carbon 
-                $endDate = (is_string($subscription->end_date)) 
-                    ? Carbon::parse($subscription->end_date) //for casting this to a carbon instance before calling the difInDays() function.
-                    : $subscription->end_date;
-
-                return $endDate->diffInDays(Carbon::now()) <= 7;
-            });
-        });
-    });
-});
-
-
-
-
-//test for clients whose subscriptions ends in two week
-it('can fetch clients with subscriptions ending within two weeks', function () {
-    $response = $this->get(route('reports.client', ['filter' => 'two_weeks']));
+    $response = $this->get('/reports?filter=one_week');
 
     $response->assertStatus(200)
         ->assertViewHas('paidClients', function ($paidClients) {
-            return $paidClients->contains(function ($client) {
-                return $client->subscriptions->contains(function ($subscription) {
-                    $endDate = is_string($subscription->end_date)
-                        ? Carbon::parse($subscription->end_date)
-                        : $subscription->end_date;
-
-                    return $endDate->diffInDays(Carbon::now()) <= 14;
-                });
-            });
+            return $paidClients->count() === 1; // One client in the range
+        })
+        ->assertViewHas('unpaidClients', function ($unpaidClients) {
+            return $unpaidClients->isEmpty(); // No unpaid clients here
         });
 });
 
 
+//Test for clients whose subscription ends in two weeks
+it('returns clients whose subscription ends in two-weeks', function () {
+    // Seed data within two weeks range
+    seedClientsWithSubscriptions(Carbon::now()->addDays(10), 1);
 
-
-//test for clients whose subscriptions ends in a month.
-it('can fetch clients with subscriptions ending within one month', function () {
-    $response = $this->get(route('reports.client', ['filter' => 'one_month']));
+    $response = $this->get('/reports?filter=two_weeks');
 
     $response->assertStatus(200)
         ->assertViewHas('paidClients', function ($paidClients) {
-            return $paidClients->contains(function ($client) {
-                return $client->subscriptions->contains(function ($subscription) {
-                    $endDate = is_string($subscription->end_date)
-                        ? Carbon::parse($subscription->end_date)
-                        : $subscription->end_date;
-
-                    return $endDate->diffInDays(Carbon::now()) <= 30;
-                });
-            });
+            return $paidClients->count() === 1; // One client in the range
         });
 });
 
+//Test for clients whose subscription ends in a month.
+it('returns clients whose subscription ends in a month ', function () {
+    // Seed data within one month range
+    seedClientsWithSubscriptions(Carbon::now()->addDays(20), 1);
 
-
-
-
-
-
-//test for clients who subscription ends with in a date range.
-it('can fetch clients with subscriptions ending within a specific date range', function () {
-    $startDate = Carbon::create(2024, 12, 1);
-    $endDate = Carbon::create(2024, 12, 15);
-
-    $response = $this->get(route('reports.client', [
-        'filter' => 'date_range',
-        'start_date' => $startDate->toDateString(),
-        'end_date' => $endDate->toDateString(),
-    ]));
+    $response = $this->get('/reports?filter=one_month');
 
     $response->assertStatus(200)
-        ->assertViewHas('paidClients', function ($paidClients) use ($startDate, $endDate) {
-            return $paidClients->contains(function ($client) use ($startDate, $endDate) {
-                return $client->subscriptions->contains(function ($subscription) use ($startDate, $endDate) {
-                    $endDateValue = is_string($subscription->end_date)
-                        ? Carbon::parse($subscription->end_date)
-                        : $subscription->end_date;
-
-                    return $endDateValue->between($startDate, $endDate);
-                });
-            });
+        ->assertViewHas('paidClients', function ($paidClients) {
+            return $paidClients->count() === 1; // One client in the range
         });
 });
+
+//Test for clients whose subscription ends in a specified date range
+it('returns clients whose subscription ends in a specified date range', function () {
+    // Seed data within the custom date range
+    seedClientsWithSubscriptions(Carbon::now()->addDays(7), 1);
+
+    $response = $this->get('/reports?filter=date_range&from_date=2024-12-01&to_date=2024-12-10');
+
+    $response->assertStatus(200)
+        ->assertViewHas('paidClients', function ($paidClients) {
+            return $paidClients->count() === 1; // One client in the range
+        });
+});
+
+
+
+
