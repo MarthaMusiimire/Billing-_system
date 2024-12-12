@@ -29,7 +29,7 @@ class StoreClientRequest extends FormRequest
             'contact_phone'=> 'required|string|max:10',
             'support_engineer_name'=> 'required|string|max:255',
             'support_engineer_phone'=> 'required|string|max:10',
-            'support_engineer_email'=> 'required|email:rfc,dns|max:255'
+            'support_engineer_email'=> 'required|email:rfc,dns|max:50'
             
         ];
     }
@@ -47,7 +47,7 @@ class StoreClientRequest extends FormRequest
             'contact_phone.required' => 'This field is required.',
             'support_engineer_email.required' => 'The email field is required.',
             'support_engineer_email.email' => 'The email must be a valid email address.',
-            'support_engineer_email.max' => 'The email should greater than 50 characters.',
+            'support_engineer_email.max' => 'The email should not be greater than 50 characters.',
            
  
             
